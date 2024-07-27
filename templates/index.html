@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Weight Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Fish Weight Predictor</h1>
+        <form action="/predict" method="post" id="prediction-form">
+            <label for="Species">Species:</label>
+            <input type="text" id="Species" name="Species" required>
+            <label for="Length1">Length1:</label>
+            <input type="number" step="any" id="Length1" name="Length1" required>
+            <label for="Length2">Length2:</label>
+            <input type="number" step="any" id="Length2" name="Length2" required>
+            <label for="Length3">Length3:</label>
+            <input type="number" step="any" id="Length3" name="Length3" required>
+            <label for="Height">Height:</label>
+            <input type="number" step="any" id="Height" name="Height" required>
+            <label for="Width">Width:</label>
+            <input type="number" step="any" id="Width" name="Width" required>
+            <button type="submit">Predict</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('prediction-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            document.getElementById('result').innerText = `Predicted Weight: ${data.prediction}`;
+        });
+    </script>
+</body>
+</html>
