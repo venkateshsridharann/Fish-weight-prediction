@@ -1,13 +1,14 @@
 from flask import Flask, request, jsonify, render_template
-import joblib
+import pickle
 import pandas as pd
 import os
 
 app = Flask(__name__)
 
 # Load the trained model
-model = joblib.load('fish_weight_predictor.joblib')
-
+with open('./static/fish_weight_predictor.pkl', 'rb') as f:
+    model = pickle.load(f)
+    
 @app.route('/')
 def home():
     return render_template('index.html')
